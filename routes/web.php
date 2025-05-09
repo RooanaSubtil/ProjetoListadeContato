@@ -8,9 +8,9 @@ Route::get('/health/status/elb', function () {
     return response()->json(['status' => 'OK']);
 });
 
-Route::middleware([])->post('user', [UserController::class, 'salvar']);
-Route::middleware([])->put('user/{id}', [UserController::class, 'atualizar']);
-Route::middleware([])->delete('user/{id}', [UserController::class, 'excluir']);
-Route::middleware([])->put('contatos', [ContatosController::class, 'salvar']);
-Route::middleware([])->delete('contatos', [ContatosController::class, 'listar']);
+Route::middleware([])->post('user/salvar', [UserController::class, 'salvar']);
+Route::middleware([])->put('user/atualizar/{id}', [UserController::class, 'atualizar']);
+Route::middleware([])->delete('user/excluir/{id}', [UserController::class, 'excluir']);
+Route::middleware([])->post('contatos/salvar', [ContatosController::class, 'salvar']);
+Route::middleware([])->get('contatos/listar', [ContatosController::class, 'listar']);
 

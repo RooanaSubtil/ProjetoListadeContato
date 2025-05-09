@@ -53,7 +53,8 @@ class ContatosController extends Controller
     public function listar()
     {
         try {
-            return $this->business->listar();
+            $contatos = $this->business->listar();
+            return view('contatos.listar', ['contatos' => $contatos]);
         }
         catch (\Exception $e){
             return $e->getMessage();

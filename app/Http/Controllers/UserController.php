@@ -7,6 +7,7 @@ use App\Business\UserBusiness;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\Cpf;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -14,6 +15,13 @@ class UserController extends Controller
 
     public function __construct(UserBusiness  $business){
         $this->business = $business;
+    }
+
+    public function index()
+    {
+        $users = User::all();
+        return view('users', ['users' => $users]);
+
     }
     public function salvar(Request $request)
     {
@@ -39,7 +47,7 @@ class UserController extends Controller
             ], 201);
         }
         catch (\Exception $e){
-            return $e->getMessage();
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
@@ -51,7 +59,7 @@ class UserController extends Controller
             return $this->business->atualizar($id, $user);
         }
         catch (\Exception $e){
-            return $e->getMessage();
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
@@ -62,7 +70,7 @@ class UserController extends Controller
             return $this->business->deletar($id, $user);
         }
         catch (\Exception $e){
-            return $e->getMessage();
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }
