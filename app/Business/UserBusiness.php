@@ -2,9 +2,7 @@
 
 namespace App\Business;
 
-use App\Business\Business;
 use App\Repositories\UserRepositories;
-use Illuminate\Support\Facades\DB;
 class UserBusiness extends Business
 {
     /** @var UserRepositories $userRepositories */

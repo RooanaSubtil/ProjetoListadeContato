@@ -46,8 +46,6 @@ class ContatosFactory extends Factory
             'posicao_geografica' => "{$latitude}, {$longitude}",
         ];
     }
-
-    // Função para obter as coordenadas latitude e longitude de um endereço
     private function getCoordinates($logradouro, $bairro, $cidade, $estado)
     {
         $apiKey = env('GOOGLE_MAPS_API_KEY');

@@ -2,12 +2,11 @@
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ContatosController;
-use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-Route::view('/', 'welcome')->name('login'); // Exibe a tela de login
+Route::view('/', 'welcome')->name('login');
 
 Route::post('/login', function (Request $request) {
     $credentials = $request->only('email', 'password');
@@ -41,5 +40,5 @@ Route::post('/logout', function (Request $request) {
 })->name('logout');
 
 Route::get('/register', function () {
-    return view('auth.register'); // Crie essa view se ainda não tiver
+    return view('auth.register'); //
 })->name('register');

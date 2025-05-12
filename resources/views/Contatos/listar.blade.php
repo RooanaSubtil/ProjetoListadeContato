@@ -5,7 +5,6 @@
         <title>Lista de Contatos</title>
 
         <style>
-            /* Estilo para garantir que a lista e o mapa fiquem lado a lado */
             .container {
                 display: flex;
                 gap: 20px;
@@ -45,7 +44,7 @@
         function initMap() {
             const map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 4,
-                center: { lat: -14.2350, lng: -51.9253 } // Centro do Brasil como padrão
+                center: { lat: -14.2350, lng: -51.9253 }
             });
 
             @foreach ($contatos as $contato)

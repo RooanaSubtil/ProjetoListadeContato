@@ -10,8 +10,6 @@
 <body>
 <div class="container mt-5">
     <h1>Gestão de Usuários</h1>
-
-    <!-- Formulário para Criar/Atualizar Usuário -->
     <form id="userForm" method="POST" action="/user/salvar">
         @csrf
         <div class="mb-3">
@@ -46,7 +44,6 @@
         </tr>
         </thead>
         <tbody id="userList">
-        <!-- Aqui você vai inserir a lista de usuários -->
         @foreach($users as $user)
             <tr id="user_{{ $user->id }}">
                 <td>{{ $user->name }}</td>
@@ -66,7 +63,6 @@
     const form = document.getElementById("userForm");
     const csrfToken = document.querySelector('meta[name="csrf-token"]');
 
-    // Função para editar um usuário
     function editUser(userId) {
         fetch(`/user/${userId}`)
             .then(response => {
@@ -80,28 +76,24 @@
                     return;
                 }
 
-                // Preencher os campos
                 document.getElementById("name").value = user.name;
                 document.getElementById("email").value = user.email;
                 document.getElementById("cpf").value = user.cpf;
                 document.getElementById("password").value = ""; // Senha não é preenchida
 
-                // Garante que a URL está sendo corretamente configurada
                 const actionUrl = `/user/atualizar/${userId}`;
                 form.setAttribute('action', actionUrl);
 
-                // Remove _method antigo
                 const oldMethod = form.querySelector('input[name="_method"]');
                 if (oldMethod) oldMethod.remove();
 
-                // Adiciona _method PUT
                 const methodInput = document.createElement('input');
                 methodInput.type = 'hidden';
                 methodInput.name = '_method';
                 methodInput.value = 'PUT';
                 form.appendChild(methodInput);
 
-                form.setAttribute('method', 'POST'); // Laravel precisa disso
+                form.setAttribute('method', 'POST');
             })
             .catch(error => {
                 console.error(error);
@@ -109,9 +101,6 @@
             });
     }
 
-
-
-    // Função para excluir um usuário
     function deleteUser(userId) {
         if (confirm("Tem certeza que deseja excluir este usuário?")) {
             fetch(`/user/excluir/${userId}`, {
@@ -141,7 +130,6 @@
             .then(response => {
                 if (!response.ok) {
                     return response.text().then(text => {
-                        console.error("Erro ao carregar usuários:", text);
                         throw new Error('Erro ao carregar usuários');
                     });
                 }
@@ -155,24 +143,22 @@
                     const row = document.createElement("tr");
                     row.id = `user_${user.id}`;
                     row.innerHTML = `
-            <td>${user.name}</td>
-            <td>${user.email}</td>
-            <td>${user.cpf}</td>
-            <td>
-                <button class="btn btn-warning btn-sm" onclick="editUser(${user.id})">Editar</button>
-                <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id})">Excluir</button>
-            </td>
-        `;
+                                        <td>${user.name}</td>
+                                        <td>${user.email}</td>
+                                        <td>${user.cpf}</td>
+                                        <td>
+                                            <button class="btn btn-warning btn-sm" onclick="editUser(${user.id})">Editar</button>
+                                            <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id})">Excluir</button>
+                                        </td>
+                                    `;
                     userList.appendChild(row);
                 });
             })
             .catch(error => {
-                console.error("Erro:", error);
                 alert('Erro ao carregar usuários');
             });
     }
 
-    // Submissão do formulário para criar ou atualizar um usuário
     form.addEventListener("submit", function(event) {
         event.preventDefault();
 
@@ -194,13 +180,12 @@
             .then(data => {
                 alert(data.mensagem);
                 form.reset();
-                // Remova o input _method para voltar ao modo padrão de criação
+
                 const oldMethod = form.querySelector('input[name="_method"]');
                 if (oldMethod) oldMethod.remove();
-                form.action = '/user/salvar'; // Volta para salvar novo
+                form.action = '/user/salvar';
             })
             .catch(error => {
-                console.error('Erro completo:', error);
                 if (error.errors) {
                     let mensagens = Object.values(error.errors).flat().join('\n');
                     alert('Erros de validação:\n' + mensagens);

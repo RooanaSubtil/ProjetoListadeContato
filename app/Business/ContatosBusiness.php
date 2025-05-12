@@ -2,9 +2,7 @@
 
 namespace App\Business;
 
-use App\Business\Business;
 use App\Repositories\ContatosRepositories;
-use Illuminate\Support\Facades\DB;
 class ContatosBusiness extends Business
 {
     /** @var ContatosRepositories $contatosRepositories */
@@ -15,7 +13,7 @@ class ContatosBusiness extends Business
     }
 
     /**
-     * Salvar
+     * Salvar os contatos
      * @param array $dados
      * @return
      */
@@ -25,9 +23,7 @@ class ContatosBusiness extends Business
     }
 
     /**
-     * Atualizar
-     * @param int $id
-     * @param array $dados
+     * Listar os contatos
      * @return
      */
     public function listar()
