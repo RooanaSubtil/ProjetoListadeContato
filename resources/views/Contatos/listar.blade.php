@@ -79,6 +79,10 @@
         <h1>Contatos</h1>
 
         <div class="container">
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="btn btn-danger">Sair</button>
+            </form>
             <div class="contatos-list">
                 @foreach ($contatos as $contato)
                     <div class="contato-card" onclick="toggleDetalhes(this)">

@@ -1,13 +1,9 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
-use Tests\TestCase;
-use Illuminate\Http\Request;
-use App\Http\Controllers\UserController;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class UserControllerTest extends TestCase
 {
@@ -23,8 +19,7 @@ class UserControllerTest extends TestCase
             'password' => 'senha123',
         ];
 
-        // Cria o usuário diretamente no banco
-        $response = $this->post('/user', $data);
+        $response = $this->post('/user/salvar', $data);
 
         // Verifica se a resposta é a esperada
         $response->assertStatus(201);
@@ -44,7 +39,7 @@ class UserControllerTest extends TestCase
             'cpf' => '',           // inválido
         ];
 
-        $response = $this->post('/user', $data);
+        $response = $this->post('/user/salvar', $data);
 
         // Verifica se a resposta é de erro
         $response->assertStatus(422); // Código HTTP de erro de validação

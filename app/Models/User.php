@@ -1,9 +1,14 @@
 <?php
 
+
 namespace App\Models;
 
-class User extends ApiModel
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+
+class User extends Authenticatable
 {
+    use Notifiable;
     /** Nome da tabela */
     protected $table = 'users';
 

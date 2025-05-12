@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
 use Tests\TestCase;
 
@@ -11,7 +11,9 @@ class ContatoControllerTest extends TestCase
      */
     public function test_example(): void
     {
-        $response = $this->get('/');
+        $this->withoutMiddleware(); // opcional, para evitar problemas com autenticação
+
+        $response = $this->get('/contatos/listar');
 
         $response->assertStatus(200);
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Business\UserBusiness;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\Cpf;
 use App\Models\User;
@@ -20,11 +21,34 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('users', ['users' => $users]);
+        return view('Usuarios.users', ['users' => $users]);
 
     }
+
+    public function listar()
+    {
+        $users = User::all();
+        if ($users->isEmpty()) {
+            return response()->json(['error' => 'Nenhum usuário encontrado'], 404);
+        }
+        return response()->json(['users' => $users]);
+    }
+
+    public function show($id)
+    {
+        // Buscar o usuário pelo ID
+        $user = User::find($id);
+
+        if ($user) {
+            return response()->json(['user' => $user]);
+        }
+
+        return response()->json(['error' => 'Usuário não encontrado'], 404);
+    }
+
     public function salvar(Request $request)
     {
+        Log::info('Recebido:', $request->all());
         try {
             $validation = Validator::make($request->all(), [
                 'email' => 'required|email|unique:users,email',
@@ -55,7 +79,7 @@ class UserController extends Controller
     public function atualizar(Request $request, $id)
     {
         try {
-            $user = $request->all();
+            $user = $request->except(['_token', '_method']);
             return $this->business->atualizar($id, $user);
         }
         catch (\Exception $e){
@@ -63,13 +87,17 @@ class UserController extends Controller
         }
     }
 
-    public function excluir(Request $request, $id)
+    public function excluir($id)
     {
         try {
-            $user = $request->all();
-            return $this->business->deletar($id, $user);
-        }
-        catch (\Exception $e){
+            $result = $this->business->excluir($id);
+
+            if ($result) {
+                return response()->json(['success' => true, 'message' => 'Usuário excluído com sucesso']);
+            } else {
+                return response()->json(['error' => 'Usuário não encontrado ou erro ao excluir'], 404);
+            }
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
